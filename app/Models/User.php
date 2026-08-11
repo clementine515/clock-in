@@ -29,4 +29,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function clockRecords()
+    {
+        return $this->hasMany(ClockRecord::class);
+    }
 }
