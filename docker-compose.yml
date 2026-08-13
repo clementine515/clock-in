@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: clock-in-app
     container_name: clock-in-app-container
     restart: always
     working_dir: /var/www
@@ -30,6 +29,20 @@ services:
       - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    container_name: clock-in-phpmyadmin-container
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: clock_in_user
+      PMA_PASSWORD: password
+    depends_on:
+      - db
 
 volumes:
   db-data:
