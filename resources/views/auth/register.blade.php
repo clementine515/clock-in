@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <!-- Welcome Message for Register -->
+    <div class="mb-4 text-center text-sm font-medium text-gray-600">
+        Create an account to start clocking in! 🚀
+    </div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 

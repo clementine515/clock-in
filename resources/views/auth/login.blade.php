@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <!-- Welcome Message -->
+    <div class="mb-4 text-center text-sm font-medium text-gray-600">
+        Hello! Have a great day at work! 👋
+    </div>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
