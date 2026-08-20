@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClockRecord;
+use App\Models\BreakTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -65,5 +66,66 @@ class ClockRecordController extends Controller
         ]);
 
         return redirect()->back()->with('status', 'Clock Out successful! Good job today.');
+    }
+
+    /**
+     * Break Start Process
+     */
+    public function breakStart(Request $request)
+    {
+        $user = Auth::user();
+        $today = Carbon::today()->toDateString();
+
+        $record = ClockRecord::where('user_id', $user->id)
+            ->where('date', $today)
+            ->first();
+
+        if (!$record || $record->checkout_time) {
+            return redirect()->back()->with('error', 'Cannot start break.');
+        }
+
+        // 進行中の休憩（end_timeがnull）があるか確認
+        $activeBreak = $record->breaks()->whereNull('end_time')->first();
+        if ($activeBreak) {
+            return redirect()->back()->with('error', 'You are already on break.');
+        }
+
+        // breaks テーブルに新しく保存
+        $record->breaks()->create([
+            'start_time' => Carbon::now()->toTimeString(),
+        ]);
+
+        return redirect()->back()->with('status', 'Break started!');
+    }
+
+    /**
+     * Break End
+     */
+    public function breakEnd(Request $request)
+    {
+        $user = Auth::user();
+        $today = Carbon::today()->toDateString();
+
+        $record = ClockRecord::where('user_id', $user->id)
+            ->where('date', $today)
+            ->first();
+
+        if (!$record) {
+            return redirect()->back()->with('error', 'Record not found.');
+        }
+
+        // 進行中の休憩（end_timeがnull）を探す
+        $activeBreak = $record->breaks()->whereNull('end_time')->first();
+
+        if (!$activeBreak) {
+            return redirect()->back()->with('error', 'You are not on break.');
+        }
+
+        // end_time を更新
+        $activeBreak->update([
+            'end_time' => Carbon::now()->toTimeString(),
+        ]);
+
+        return redirect()->back()->with('status', 'Break ended!');
     }
 }
