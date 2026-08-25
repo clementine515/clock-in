@@ -15,6 +15,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <!-- ★ここを追加: 日付別一覧へのリンク -->
+                    <x-nav-link :href="route('daily.list')" :active="request()->routeIs('daily.list')">
+                        {{ __('Daily Attendance') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -69,6 +74,11 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <!-- ★ここを追加: スマホ用メニュー -->
+            <x-responsive-nav-link :href="route('daily.list')" :active="request()->routeIs('daily.list')">
+                {{ __('Daily Attendance') }}
             </x-responsive-nav-link>
         </div>
 
