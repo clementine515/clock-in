@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClockRecordController;
+use App\Http\Controllers\DailyAttendanceController;
 use App\Models\ClockRecord; // ← 追加
 use App\Models\BreakTime;
 use Carbon\Carbon; // ← 追加
@@ -43,6 +44,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         return view('dashboard', compact('record', 'status'));
     })->name('dashboard');
+
+    // 日付別勤怠一覧用のルート（追加）
+    Route::get('/daily-list', [DailyAttendanceController::class, 'index'])->name('daily.list');
 
     // 打刻用ルート（POST送信）
     Route::post('/clock-in', [ClockRecordController::class, 'checkIn'])->name('clock.in');
