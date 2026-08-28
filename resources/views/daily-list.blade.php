@@ -37,7 +37,9 @@
                                 <th scope="col" class="px-6 py-3">Name</th>
                                 <th scope="col" class="px-6 py-3">Clock In</th>
                                 <th scope="col" class="px-6 py-3">Clock Out</th>
-                                <th scope="col" class="px-6 py-3">Break Count</th>
+                                <th scope="col" class="px-6 py-3">Total Break</th>
+                                <th scope="col" class="px-6 py-3">Work Time</th>
+                            </tr>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,25 +48,37 @@
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                         {{ $record->user->name }}
                                     </td>
+                                    <!-- 出勤時間（秒を消して 09:00 表記にする） -->
                                     <td class="px-6 py-4">
-                                        {{ $record->checkin_time ?? '-' }}
+                                        {{ $record->checkin_time ? \Carbon\Carbon::parse($record->checkin_time)->format('H:i') : '-' }}
                                     </td>
+                                    <!-- 退勤時間（秒を消して 18:00 表記にする） -->
                                     <td class="px-6 py-4">
-                                        {{ $record->checkout_time ?? '-' }}
+                                        {{ $record->checkout_time ? \Carbon\Carbon::parse($record->checkout_time)->format('H:i') : '-' }}
                                     </td>
+                                    <!-- アクセサで計算した総休憩時間（例: 01:00） -->
                                     <td class="px-6 py-4">
-                                        {{ $record->breaks->count() }} time(s)
+                                        {{ $record->total_break_time }}
+                                    </td>
+                                    <!-- アクセサで計算した実労働時間（例: 08:00） -->
+                                    <td class="px-6 py-4 font-semibold text-gray-800">
+                                        {{ $record->work_time }}
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="px-6 py-8 text-center text-gray-400">
+                                    <td colspan="5" class="px-6 py-8 text-center text-gray-400">
                                         No attendance records found for this date.
                                     </td>
                                 </tr>
-                            @endforelse
+                        @endforelse
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Pagination Links -->
+                <div class="mt-4">
+                    {{ $records->links() }}
                 </div>
 
             </div>
