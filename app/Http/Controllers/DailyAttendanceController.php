@@ -23,10 +23,12 @@ class DailyAttendanceController extends Controller
         $prevDate = $current->copy()->subDay()->toDateString();
         $nextDate = $current->copy()->addDay()->toDateString();
 
-        // 指定日の全ユーザーの打刻レコードを取得（ユーザー情報と休憩情報も同時に取得）
+        // 1ページあたり10件でページネーションを取得
         $records = ClockRecord::with(['user', 'breaks'])
             ->where('date', $targetDate)
-            ->get();
+            ->orderBy('created_at', 'asc')
+            ->paginate(10)
+            ->appends(['date' => $targetDate]); // ページ切り替え時も日付(?date=YYYY-MM-DD)を保持
 
         return view('daily-list', compact('records', 'current', 'prevDate', 'nextDate'));
     }
