@@ -20,6 +20,10 @@
                     <x-nav-link :href="route('daily.list')" :active="request()->routeIs('daily.list')">
                         {{ __('Daily Attendance') }}
                     </x-nav-link>
+                    <!-- 追記：My History へのリンク -->
+                    <x-nav-link :href="route('my.history')" :active="request()->routeIs('my.history')">
+                        {{ __('My History') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -79,6 +83,10 @@
             <!-- ★ここを追加: スマホ用メニュー -->
             <x-responsive-nav-link :href="route('daily.list')" :active="request()->routeIs('daily.list')">
                 {{ __('Daily Attendance') }}
+            </x-responsive-nav-link>
+            <!-- 追記：My History へのリンク -->
+            <x-responsive-nav-link :href="route('my.history')" :active="request()->routeIs('my.history')">
+                {{ __('My History') }}
             </x-responsive-nav-link>
         </div>
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClockRecordController;
 use App\Http\Controllers\DailyAttendanceController;
+use App\Http\Controllers\UserAttendanceHistoryController;
 use App\Models\ClockRecord; // ← 追加
 use App\Models\BreakTime;
 use Carbon\Carbon; // ← 追加
@@ -55,6 +56,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // 休憩用ルート（追加）
     Route::post('/break-start', [ClockRecordController::class, 'breakStart'])->name('break.start');
     Route::post('/break-end', [ClockRecordController::class, 'breakEnd'])->name('break.end');
+
+    // 個人勤怠履歴（月別）
+    Route::get('/my-history', [UserAttendanceHistoryController::class, 'index'])->name('my.history');
 });
 
 Route::middleware('auth')->group(function () {
