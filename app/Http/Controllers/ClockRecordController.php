@@ -60,6 +60,12 @@ class ClockRecordController extends Controller
             return redirect()->back()->with('error', 'You have already clocked out today.');
         }
 
+        // 追記：休憩中の場合は退勤できないようにガード
+        $activeBreak = $record->breaks()->whereNull('end_time')->first();
+        if ($activeBreak) {
+            return redirect()->back()->with('error', 'Please end your break before clocking out.');
+        }
+
         // 2. 退勤時間を更新（Model経由でDBへ上書き）
         $record->update([
             'checkout_time' => Carbon::now()->toTimeString(),
