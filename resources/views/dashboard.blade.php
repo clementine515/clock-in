@@ -9,19 +9,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 text-gray-900">
 
-                <!-- Flash Messages (Success & Error) -->
-                @if (session('status'))
-                    <div class="mb-6 p-4 text-sm font-medium text-green-700 bg-green-100 rounded-lg text-center">
-                        {{ session('status') }}
-                    </div>
-                @endif
-
-                @if (session('error'))
-                    <div class="mb-6 p-4 text-sm font-medium text-red-700 bg-red-100 rounded-lg text-center">
-                        {{ session('error') }}
-                    </div>
-                @endif
-
                 <!-- Status Display -->
                 <div class="text-center mb-8">
                     <p class="text-sm text-gray-500 mb-1">Status</p>
