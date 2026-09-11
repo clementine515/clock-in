@@ -48,5 +48,17 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+
+        <!-- 追記：新規登録への導線 -->
+        @if (Route::has('register'))
+            <div class="mt-6 pt-4 border-t border-gray-100 text-center">
+                <p class="text-sm text-gray-600">
+                    Don't have an account? 
+                    <a class="underline font-semibold text-indigo-600 hover:text-indigo-800 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
+                        Register here
+                    </a>
+                </p>
+            </div>
+        @endif
     </form>
 </x-guest-layout>
