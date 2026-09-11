@@ -10,8 +10,12 @@ use Carbon\Carbon; // ← 追加
 use Illuminate\Support\Facades\Auth; // ← 追加
 use Illuminate\Support\Facades\Route;
 
+// トップページ（/）アクセス時のリダイレクト
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+    return redirect()->route('login');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
